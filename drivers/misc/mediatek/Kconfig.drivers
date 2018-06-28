@@ -398,6 +398,10 @@ config MTK_SMART_BATTERY
 	tristate "MediaTek Smart Battery Driver"
 	default y
 
+config MTK_CW2015_SUPPORT
+	tristate "MediaTek CW2015 Battery Driver"
+	default n
+
 config MTK_DUMMY_BATTERY
 	tristate "MediaTek Dummy Battery Driver"
 	depends on ARCH_MT6516

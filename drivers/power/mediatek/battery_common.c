@@ -132,6 +132,10 @@ int g_platform_boot_mode = 0;
 struct timespec g_bat_time_before_sleep;
 int g_smartbook_update = 0;
 
+#if defined(CONFIG_MTK_CW2015_SUPPORT)
+int cw2015_charging_status;
+#endif
+
 #if defined(CONFIG_MTK_DUAL_INPUT_CHARGER_SUPPORT)
 kal_bool g_vcdt_irq_delay_flag = 0;
 #endif
@@ -2175,10 +2179,13 @@ void mt_battery_GetBatteryData(void)
 	static kal_uint8 batteryIndex = 0;
 	static kal_int32 previous_SOC = -1;
 
+#if defined(CONFIG_MTK_CW2015_SUPPORT)
+	cw2015_charging_status = upmu_is_chr_det();
+#endif
 	bat_vol = battery_meter_get_battery_voltage(KAL_TRUE);
 	Vsense = battery_meter_get_VSense();
 	if( upmu_is_chr_det() == KAL_TRUE ) {
-	ICharging = battery_meter_get_charging_current();
+		ICharging = battery_meter_get_battery_current() / 10;
 	} else {
 		ICharging = 0;
 	}
@@ -2191,9 +2198,6 @@ void mt_battery_GetBatteryData(void)
 	if (bat_meter_timeout == KAL_TRUE || bat_spm_timeout == TRUE || fg_wake_up_bat== KAL_TRUE) 
 	{
 		SOC = battery_meter_get_battery_percentage();
-		//if (bat_spm_timeout == true)
-			//BMT_status.UI_SOC = battery_meter_get_battery_percentage();
-
 		bat_meter_timeout = KAL_FALSE;
 		bat_spm_timeout = FALSE;
 	} else {

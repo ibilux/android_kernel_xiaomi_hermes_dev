@@ -43,7 +43,7 @@
 #ifdef I2C_EXT_VBAT_BOOST_CHANNEL
 #define tps6128x_BUSNUM I2C_EXT_VBAT_BOOST_CHANNEL
 #else
-#define tps6128x_BUSNUM 0//1
+#define tps6128x_BUSNUM 1
 #endif
 
 static struct i2c_client *new_client = NULL;
