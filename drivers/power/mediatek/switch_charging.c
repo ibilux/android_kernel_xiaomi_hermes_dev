@@ -511,6 +511,7 @@ void select_charging_curret_bcct(void)
 static void pchr_turn_on_charging(void);
 kal_uint32 set_bat_charging_current_limit(int current_limit)
 {
+#if 0
 	battery_log(BAT_LOG_CRTI, "[BATTERY] set_bat_charging_current_limit (%d)\r\n",
 			    current_limit);
 
@@ -560,11 +561,14 @@ kal_uint32 set_bat_charging_current_limit(int current_limit)
 		/* change to default current setting */
 		g_bcct_flag = 0;
 	}
+#else
+	g_bcct_flag = 0;
 
 	/* wake_up_bat(); */
 	pchr_turn_on_charging();
 
 	return g_bcct_flag;
+#endif
 }
 
 
@@ -738,7 +742,7 @@ static void pchr_turn_on_charging(void)
 			/*Set CV Voltage */
 #if !defined(CONFIG_MTK_JEITA_STANDARD_SUPPORT)
 #ifdef HIGH_BATTERY_VOLTAGE_SUPPORT
-			cv_voltage = BATTERY_VOLT_04_340000_V;
+			cv_voltage = BATTERY_VOLT_04_400000_V;
 #else
 			cv_voltage = BATTERY_VOLT_04_200000_V;
 #endif

@@ -54,6 +54,10 @@ int Enable_FGADC_LOG = 1;
 /* ============================================================ // */
 BATTERY_METER_CONTROL battery_meter_ctrl = NULL;
 
+#if defined(CONFIG_MTK_CW2015_SUPPORT)
+extern int cw2015_capacity, cw2015_vol;
+#endif
+
 kal_bool gFG_Is_Charging = KAL_FALSE;
 kal_int32 g_auxadc_solution = 0;
 U32 g_spm_timer = 600;
@@ -2549,6 +2553,9 @@ kal_int32 get_dynamic_period(int first_use, int first_wakeup_time, int battery_c
 /* ============================================================ // */
 kal_int32 battery_meter_get_battery_voltage(kal_bool update)
 {
+#if defined(CONFIG_MTK_CW2015_SUPPORT)
+	return cw2015_vol;
+#else
 	int ret = 0;
 	int val = 5;
 	static int pre_val = -1;
@@ -2571,6 +2578,7 @@ kal_int32 battery_meter_get_battery_voltage(kal_bool update)
 #endif
 
 	return val;
+#endif
 }
 
 kal_int32 battery_meter_get_charging_current_imm(void)
@@ -2826,6 +2834,8 @@ kal_int32 battery_meter_get_battery_percentage(void)
 {
 #if defined(CONFIG_POWER_EXT)
 	return 50;
+#elif defined(CONFIG_MTK_CW2015_SUPPORT)
+	return cw2015_capacity;
 #else
 
 	if (bat_is_charger_exist() == KAL_FALSE)

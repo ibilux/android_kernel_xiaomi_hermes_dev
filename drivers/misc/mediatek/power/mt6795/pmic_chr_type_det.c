@@ -46,6 +46,9 @@ extern kal_uint32 upmu_get_reg_value(kal_uint32 reg);
 extern void Charger_Detect_Init(void);
 extern void Charger_Detect_Release(void);
 extern unsigned int get_pmic_mt6332_cid(void);
+#if defined(CONFIG_MTK_CW2015_SUPPORT)
+int cw2015_charging_type;
+#endif
 
 #if defined(CONFIG_POWER_EXT) || defined(CONFIG_MTK_FPGA)
 
@@ -333,7 +336,9 @@ int hw_charging_get_charger_type(void)
 
     /********* Finally setting *******************************/
     hw_bc12_done();
-
+#if defined(CONFIG_MTK_CW2015_SUPPORT)
+    cw2015_charging_type = CHR_Type_num;
+#endif
     return CHR_Type_num;
 #endif
 }

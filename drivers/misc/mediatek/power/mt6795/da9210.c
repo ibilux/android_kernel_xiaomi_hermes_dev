@@ -50,7 +50,7 @@ extern kal_uint32 upmu_get_reg_value(kal_uint32 reg);
 #ifdef I2C_EXT_BUCK_CHANNEL
 #define da9210_BUSNUM I2C_EXT_BUCK_CHANNEL
 #else
-#define da9210_BUSNUM 0//1
+#define da9210_BUSNUM 1
 #endif
 
 static struct i2c_client *new_client = NULL;
